@@ -1,5 +1,10 @@
 from abc import ABC, abstractmethod
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from core.board import Board
+
 class Player(ABC):
     
     def __init__(self, name: str, sign: str):
@@ -19,7 +24,7 @@ class Player(ABC):
 
 
     @abstractmethod
-    def get_move(self, board_cells: list[list[str]]) -> tuple[int, int]:
+    def get_move(self, board: Board) -> tuple[int, int]:
         """
             Returns
                 tuple of board cordinates, after normalizing them from 1 based indexes in the user format, to the underlying 0 based index matrix

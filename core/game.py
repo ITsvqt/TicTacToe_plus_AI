@@ -54,7 +54,7 @@ class Game:
         while True:
             
             try:
-                move = player.get_move(self._board.data)
+                move = player.get_move(self._board)
                 self._board.ensure_valid_position(*move)
                 return move
             
