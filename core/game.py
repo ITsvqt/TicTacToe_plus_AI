@@ -30,15 +30,17 @@ class Game:
             
             self._board.set_cell(*move, player.sign)
             
-            #TODO: print the board highliting the winner line in green + cool message
-            if self._is_winner(player):
-                self._clear_and_print_board()
+            # TODO: add cool message
+            if (win_line:= self._is_winner(player)):
+                self._clear_screen()
+                self._board.render_winning(win_line)
                 print(f"Player \'{player.name}\' WON !!")
                 break
             
             self._cnt_moves += 1
             
-            #TODO: highlight everyting in orange + cool message
+            
+            #TODO: highlight X with yellow, O with orange + cool message
             if self._is_draw():
                 self._clear_and_print_board()
                 print("Game ended in a DRAW !!")      
@@ -64,13 +66,13 @@ class Game:
                 self._clear_and_print_board()
                 
     
-    def _is_winner(self, player: Player):
+    def _is_winner(self, player: Player) -> tuple[int,list] | None:
         
-        for line in self._board.lines():
+        for i, line in enumerate(self._board.lines()):
             if line.count(player.sign) == 3:
-                return True
+                return i
             
-        return False
+        return None
     
     
     def _is_draw(self):

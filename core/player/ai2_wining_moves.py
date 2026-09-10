@@ -11,8 +11,8 @@ if TYPE_CHECKING:
 class AIWinningMoves_Player(Player, AIAnalysisMixin):
     
     
-    def __init__(self, sign: str):
-        super().__init__("Wining Move", sign)
+    def __init__(self,name: str, sign: str):
+        super().__init__(f"Wining Move AI - {name}", sign)
         
     def get_move(self, board: Board) -> tuple[int, int]:
         

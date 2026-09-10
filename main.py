@@ -13,10 +13,11 @@ from core.player.ai3_winning_and_loosing_moves import AIWinningAndLosingMoves_Pl
 
 
 g1 = Game(
-    (HumanPlayer("cuco", "X"),
-     AIWinningAndLosingMoves_Player("O"))
+    (AIRandom_Player("P1", "X"),
+     AIWinningAndLosingMoves_Player("Gosheca", "O"))
     )
 
 g1.game_loop()
 
     
+print()

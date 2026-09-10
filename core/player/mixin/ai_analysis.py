@@ -19,8 +19,10 @@ class AIAnalysisMixin:
         res = self._get_winning_line(board, player_sign)
     
         if res is not None:
-            return self._map_line_and_index_to_cords(res[0], res[1].index(' '), board.size)
-            
+            y, x =  board.map_line_and_index_to_coords(res[0], res[1].index(' '))
+            # the contract is the player provies x, y axis, which board returns flipped
+            return x,y
+        
         return None
     
     
@@ -32,7 +34,9 @@ class AIAnalysisMixin:
         res = self._get_winning_line(board, enemy_sign)
         
         if res is not None:
-            return self._map_line_and_index_to_cords(res[0], res[1].index(' '), board.size)
+            y, x =  board.map_line_and_index_to_coords(res[0], res[1].index(' '))
+            # the contract is the player provies x, y axis, which board returns flipped
+            return x,y
         
         return None
         
@@ -46,6 +50,7 @@ class AIAnalysisMixin:
             if board.data[x][y] == " "
         ]
         
+        
     @staticmethod
     def _get_winning_line(board: Board, sign: str) -> tuple[int, list] | None:
         """ Returns index of the returned line from board and the line containing 2 signs and empty cell. """
@@ -53,20 +58,22 @@ class AIAnalysisMixin:
         for i, line in enumerate(board.lines()):
             if line.count(sign) == 2 and ' ' in line:
                 return i, line
+            
+        return None
         
         
-    @staticmethod
-    def _map_line_and_index_to_cords(line_idx: int, el_idx: int, board_size: int) -> tuple[int, int]:
-        """ Maps index of element in the returned board.lines to board.matrix coordinate. """
+    # @staticmethod
+    # def _map_line_and_index_to_cords(line_idx: int, el_idx: int, board_size: int) -> tuple[int, int]:
+    #     """ Maps index of element in the returned board.lines to board.matrix coordinate. """
 
-        if 0 <= line_idx <= 2:
-            return el_idx, line_idx
-        elif 3 <= line_idx <= 5:
-            return line_idx - board_size, el_idx
-        elif line_idx == 6:
-            return el_idx, el_idx
-        elif line_idx == 7:
-            return  board_size - 1 - el_idx, el_idx
+    #     if 0 <= line_idx <= 2:
+    #         return el_idx, line_idx
+    #     elif 3 <= line_idx <= 5:
+    #         return line_idx - board_size, el_idx
+    #     elif line_idx == 6:
+    #         return el_idx, el_idx
+    #     elif line_idx == 7:
+    #         return  board_size - 1 - el_idx, el_idx
     
         
         

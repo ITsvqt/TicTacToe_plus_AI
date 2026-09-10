@@ -37,8 +37,8 @@ class Player(ABC):
     
     @staticmethod
     def _ensure_valid_name(name:str):
-        if not 3 <= len(name) <= 12:
-            raise ValueError("Illegal name length: [3:12]")
+        if not 3 <= len(name) <= 28:
+            raise ValueError(f"Illegal name length: [3:28]: {name} ({len(name)})")
         
     @staticmethod
     def _ensure_valid_sign(sign:str):
