@@ -1,6 +1,7 @@
 
 import os
 
+from engine.rules import TicTacToeRules
 from core.board import Board
 from core.player.base_player.player import Player
 
@@ -15,7 +16,6 @@ class Game:
         
         self._current_player = 0
         
-        self._cnt_max_moves = self._board.size * self._board.size
         self._cnt_moves = 0
         
         
@@ -27,13 +27,14 @@ class Game:
  
             player = self._players[self._current_player]
             move = self._get_valid_move(player)
-            
             self._board.set_cell(*move, player.sign)
             
             # TODO: add cool message
-            if (win_line:= self._is_winner(player)):
+            winner = TicTacToeRules.get_winner(self._board)
+            if winner is not None:
+                idx_win_line, _ = winner
                 self._clear_screen()
-                self._board.render_winning(win_line)
+                self._board.render(idx_win_line)
                 print(f"Player \'{player.name}\' WON !!")
                 break
             
@@ -41,7 +42,10 @@ class Game:
             
             
             #TODO: highlight X with yellow, O with orange + cool message
-            if self._is_draw():
+            if TicTacToeRules.is_board_full(
+                self._board.BOARD_WIDTH * self._board.BOARD_HEIGHT,
+                self._cnt_moves
+                ):
                 self._clear_and_print_board()
                 print("Game ended in a DRAW !!")      
                 break
@@ -58,6 +62,8 @@ class Game:
             try:
                 move = player.get_move(self._board)
                 self._board.ensure_valid_position(*move)
+                TicTacToeRules.ensure_valid_move(self._board, *move)
+                
                 return move
             
             except ValueError as error:
@@ -65,22 +71,6 @@ class Game:
                 input("Press Enter to Continue ...")
                 self._clear_and_print_board()
                 
-    
-    def _is_winner(self, player: Player) -> tuple[int,list] | None:
-        
-        for i, line in enumerate(self._board.lines()):
-            if line.count(player.sign) == 3:
-                return i
-            
-        return None
-    
-    
-    def _is_draw(self):
-        if self._cnt_max_moves == self._cnt_moves:
-            return True
-        
-        return False
-        
 
     @staticmethod
     def _ensure_valid_player_cnt( players):

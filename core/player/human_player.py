@@ -13,8 +13,8 @@ class HumanPlayer(Player):
         y = input("  Enter Y cordinate \u2193 : ")
         
         try:
-            x,y = map(int, (x,y))
+            x, y = map(int, (x,y))
         except:
             raise ValueError("[Invalid cordinate type!] Number expected.")
         
-        return (x - 1, y - 1)
+        return (x, y)
